@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .quiz-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px gray;
+        width: 300px;
+        text-align: center;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .option {
+        margin: 10px 0;
+        display: block;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+  
+
+    
+    <div class="quiz-box">
+      <h3 style="color:Green">App Make By M.Adil</h3>
+      <h2 id="question">Loading...</h2>
+      <div id="options"></div>
+      <button onclick="nextQuestion()">Next</button>
+      <p id="score"></p>
+    </div>
+
+    <script>
+      const quizData = [
+        {
+          question: "1. What is a twin prime?",
+          options: ["Prime Number with Two factor", "Prime that repeats", "Pair of prime that differ by 2", "A mirrored prime"],
+          answer: "Pair of prime that differ by 2",
+        },
+        {
+          question: "2. Is there a largest prime number?",
+          options: ["Yes", "NO", "Maybe", "Only for even number"],
+          answer: "NO",
+        },
+        {
+          question: "3. What is the only even prime number?",
+          options: ["0", "2", "4", "6"],
+          answer: "2",
+        },
+        {
+          question: "4. What is the Square root of 144?",
+          options: ["10", "12", "13", "11"],
+          answer: "12",
+        },  
+      {
+          question: "5. Who is the Father of the Indian Constitution?",
+          options: ["Gandhi", "Nehru", "Dr. B.R. Ambedkar", "Tagore"],
+          answer: "Dr. B.R. Ambedkar",
+        },
+        {
+            question: "6. Which body is responsible for conducting elections?",
+          options: ["Election Commission", "Supreme Court", "Parliament", "Lok sabha"],
+          answer: "Election Commission",
+        },
+          {
+          question: "7. Which of the following is the Direct tax?",
+          options: ["GST", "Income Tax", "Sales Tax", "Customs Duty"],
+          answer: "Income Tax",
+        }, 
+          {
+          question: "*8. Which of the follewing is a type of tax in india?",
+          options: ["CGPA", "GST", "WIFI", "SIM"],
+          answer: "GST",
+        }, 
+      
+          {
+          question: "9. which part of theplant make food?",
+          options: ["Root ", "Flower ", "Stem", "Leaf"],
+          answer: "Leaf",
+        }, 
+          {
+          question: "10. Which organ is responsible for pumping blood?",
+          options: ["Kidney", "Heart", "Liver", "Lungs"],
+          answer: "Heart",
+        }, 
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let answered = false;
+
+      function loadQuestion() {
+        const q = quizData[currentQuestion];
+        document.getElementById("question").textContent = q.question;
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = "";
+        answered = false;
+
+        q.options.forEach((option) => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.className = "option";
+          btn.onclick = () => selectOption(btn, option);
+          optionsDiv.appendChild(btn);
+        });
+      }
+
+      function selectOption(button, selected) {
+        if (answered) return;
+        answered = true;
+
+        const correct = quizData[currentQuestion].answer;
+        const buttons = document.querySelectorAll(".option");
+
+        buttons.forEach((btn) => {
+          btn.disabled = true;
+          if (btn.textContent === correct) {
+            btn.style.background = "green";
+            btn.style.color = "black"
+           
+          } else if (btn.textContent === selected) {
+            
+            btn.style.background = "red";
+         
+          }
+        });
+
+        if (selected === correct) {
+          score++;
+        }
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion();
+        } else {
+          document.getElementById("question").textContent = "Quiz Completed!";
+          document.getElementById("options").innerHTML = "";
+          document.getElementById(
+            "score"
+          ).textContent = `Your score: ${score}/${quizData.length}`;
+          document.querySelector("button").style.display = "none";
+        }
+      }
+
+      window.onload = loadQuestion;
+    </script>
+  </body>
+</html>
